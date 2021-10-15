@@ -34,7 +34,7 @@ aliases:
         echo "Build successful"
 
 jobs:
-  install-node-dependecies:
+  build:
     executor: app-executer
     steps: 
       - checkout
@@ -49,7 +49,7 @@ jobs:
           key: app-{{ checksum "package.json" }}
   
   linting: 
-    executor: app-executor
+    executor: app-executer
     steps: 
       - checkout
       - *show-current-branch-name
@@ -102,10 +102,10 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - install-node-dependecies
+      - build
       - linting:
           requires:
-            - install-node-dependecies
+            - build
           filters:
             branches:
               only:
