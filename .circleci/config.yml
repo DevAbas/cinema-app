@@ -34,7 +34,7 @@ aliases:
         echo "Build successful"
 
 jobs:
-  build:
+  install-node-dependecies:
     executor: app-executer
     steps: 
       - checkout
@@ -102,10 +102,10 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - build
+      - install-node-dependecies
       - linting:
           requires:
-            - build
+            - install-node-dependecies
           filters:
             branches:
               only:
