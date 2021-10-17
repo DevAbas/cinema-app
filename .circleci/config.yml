@@ -1,4 +1,39 @@
 version: 2.1
+
+orbs:
+  slack: circleci/slack@4.3.0
+
+commands:
+  trigger_slack_notification:
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
+  notify_slack_error:
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+  notify_slack_pass:
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+
 executors:
   app-executer:
     docker:
@@ -37,6 +72,7 @@ jobs:
   build:
     executor: app-executer
     steps: 
+      - trigger-slack-notification
       - checkout
       - *show-current-branch-name 
       - *restore-cache
@@ -47,6 +83,8 @@ jobs:
           paths:
             - node_modules
           key: app-{{ checksum "package.json" }}
+      - notify_slack_error
+      - notify_slack_pass
   
   linting: 
     executor: app-executer
@@ -134,6 +172,7 @@ workflows:
       - deploy-to-aws-s3:
           requires:
             - prettier
+            - linting
           filters:
             branches:
               only:
