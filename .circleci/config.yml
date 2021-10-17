@@ -72,7 +72,7 @@ jobs:
   build:
     executor: app-executer
     steps: 
-      - trigger-slack-notification
+      - trigger_slack_notification
       - checkout
       - *show-current-branch-name 
       - *restore-cache
