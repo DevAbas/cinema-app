@@ -128,7 +128,7 @@ jobs:
       - slack/notify:
           event: 'always'
           channel: 'cinema-app'
-          template:   
+          template: ''
           custom: |
             {
               "blocks": [
