@@ -16,7 +16,11 @@ const Header = () => {
               <li className="text-sm tracking-wide">Top Rated</li>
               <li className="text-sm tracking-wide">New Movies</li>
             </ul>
-            <input type="text" placeholder="Search for a movie" className="px-2 py-2 border rounded" />
+            <input
+              type="text"
+              placeholder="Search for a movie"
+              className="px-2 py-2 border rounded"
+            />
           </nav>
         </div>
       </div>
